@@ -1,15 +1,14 @@
 # -*- coding: utf-8 -*-
-from flask import Blueprint,request,jsonify,make_response,g,redirect,render_template
+from flask import Blueprint, request, jsonify, make_response, g, redirect, render_template
 from common.models.User import User
 from common.libs.user.UserService import UserService
 from common.libs.Helper import ops_render
 from common.libs.UrlManager import UrlManager
-from application import app,db
+from application import app, db
 import json
 
 
-
-route_user = Blueprint( 'user_page',__name__ )
+route_user = Blueprint('user_page', __name__)
 
 
 @route_user.route("/login", methods=["GET", "POST"])
@@ -55,7 +54,8 @@ def login():
         UserService.geneAuthCode(user_info), user_info.uid),  60 * 60 * 24 * 120)  # 保存120天
     return response
 
-@route_user.route("/edit", methods = [ "GET","POST" ] )
+
+@route_user.route("/edit", methods=["GET", "POST"])
 def edit():
     if request.method == "GET":
         return ops_render("user/edit.html", {'current': 'edit'})
@@ -64,7 +64,7 @@ def edit():
     req = request.values
     nickname = req['nickname'] if 'nickname' in req else ''
     email = req['email'] if 'email' in req else ''
-    if nickname is None or len( nickname ) < 1:
+    if nickname is None or len(nickname) < 1:
         resp['code'] = -1
         resp['msg'] = "请输入符合规范的姓名~~"
         return jsonify(resp)
@@ -116,9 +116,9 @@ def resetPwd():
         resp['msg'] = "该用户是演示账号，不准修改密码和登录用户名~~"
         return jsonify(resp)
 
-    user_info.login_pwd = UserService.genePwd( new_password,user_info.login_salt )
+    user_info.login_pwd = UserService.genePwd(new_password, user_info.login_salt)
 
-    db.session.add( user_info )
+    db.session.add(user_info)
     db.session.commit()
 
     response = make_response(json.dumps(resp))
