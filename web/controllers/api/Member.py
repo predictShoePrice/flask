@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
 from web.controllers.api import route_api
-from flask import request, jsonify, g
-from application import app, db
+from  flask import request,jsonify,g
+from application import  app,db
 import requests,json
 from common.models.member.Member import Member
 from common.models.food.WxShareHistory import WxShareHistory
@@ -10,17 +10,17 @@ from common.models.member.OauthMemberBind import OauthMemberBind
 from common.libs.Helper import getCurrentDate
 from common.libs.member.MemberService import MemberService
 
-
-@route_api.route("/member/login", methods=["GET", "POST"])
+@route_api.route("/member/login",methods = [ "GET","POST" ])
 def login():
-    resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
+    resp = { 'code':200 ,'msg':'操作成功~','data':{} }
     req = request.values
     print(req)
     code = req['code'] if 'code' in req else ''
-    if not code or len(code) < 1:
+    if not code or len( code ) < 1:
         resp['code'] = -1
         resp['msg'] = "需要code"
         return jsonify(resp)
+
 
     openid = MemberService.getWeChatOpenId( code )
     if openid is None:
@@ -34,8 +34,8 @@ def login():
     '''
         判断是否已经测试过，注册了直接返回一些信息
     '''
-    bind_info = OauthMemberBind.query.filter_by(openid=openid, type=1).first()
-    print(bind_info, '我是张彪哈哈哈哈')
+    bind_info = OauthMemberBind.query.filter_by( openid = openid,type = 1 ).first()
+    print(bind_info,'我是张彪哈哈哈哈')
     if not bind_info:
         model_member = Member()
         model_member.nickname = nickname

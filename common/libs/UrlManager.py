@@ -8,18 +8,18 @@ class UrlManager(object):
         pass
 
     @staticmethod
-    def buildUrl(path):
+    def buildUrl( path ):
         return path
 
     @staticmethod
     def buildStaticUrl(path):
-        release_version = app.config.get('RELEASE_VERSION')
-        ver = "%s" % (int(time.time())) if not release_version else release_version
+        release_version = app.config.get( 'RELEASE_VERSION' )
+        ver = "%s"%( int( time.time() ) ) if not release_version else release_version
         path = "/static" + path + "?ver=" + ver
-        return UrlManager.buildUrl(path)
+        return UrlManager.buildUrl( path )
 
     @staticmethod
-    def buildImageUrl(path):
+    def buildImageUrl( path ):
         app_config = app.config['APP']
         url = app_config['domain'] + app.config['UPLOAD']['prefix_url'] + path
         return url
