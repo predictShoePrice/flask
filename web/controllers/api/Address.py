@@ -31,7 +31,7 @@ def myAddressList():
 def myAddressSet():
 	resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
 	req = request.values
-	id = int( req['id'] ) if 'id' in req and req['id'] else 0
+	id = int(req['id'] ) if 'id' in req and req['id'] else 0
 	nickname = req['nickname'] if 'nickname' in req else ''
 	address = req['address'] if 'address' in req else ''
 	mobile = req['mobile'] if 'mobile' in req else ''

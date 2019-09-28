@@ -1,9 +1,13 @@
 # -*- coding: utf-8 -*-
-# -*- coding: utf-8 -*-
 DEBUG = True
 SQLALCHEMY_ECHO = True
-PASSWORD = '0Genius5485'
-SQLALCHEMY_DATABASE_URI = 'mysql+pymysql://root:{}@118.25.112.15:3306/food_db?charset=utf8'.format(PASSWORD)
+MYSQL_PASSWORD = '2019_shoes_stock'
+MYSQL_USER = 'root'
+MYSQL_HOST = '10.23.123.190'
+MYSQL_PORT = '3306'
+SQLALCHEMY_DATABASE_URI = \
+    'mysql+pymysql://{}:{}@{}:{}/food_db?charset=utf8'.\
+        format(MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT)
 SQLALCHEMY_TRACK_MODIFICATIONS = False
 SQLALCHEMY_ENCODING = "utf8mb4"
 SERVER_PORT = 5000
