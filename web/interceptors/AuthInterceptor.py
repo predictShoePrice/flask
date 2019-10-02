@@ -1,12 +1,12 @@
 # -*- coding: utf-8 -*-
 from application import app
-from flask import request,g,redirect
+from flask import request, g, redirect
 
-from common.models.User import ( User )
-from common.libs.user.UserService import ( UserService )
-from common.libs.UrlManager import ( UrlManager )
+from common.models.User import (User)
+from common.libs.user.UserService import (UserService)
+from common.libs.UrlManager import (UrlManager)
 from common.libs.LogService import LogService
-import  re
+import re
 
 
 @app.before_request
@@ -20,7 +20,6 @@ def before_request():
     if pattern.match(path):
         return
 
-
     if '/api' in path:
         return
 
@@ -29,14 +28,14 @@ def before_request():
     if user_info:
         g.current_user = user_info
 
-    #加入访问记录日志
+    # 加入访问记录日志
     LogService.addAccessLog()
     pattern = re.compile('%s' % "|".join(ignore_urls))
     if pattern.match(path):
         return
 
-    if not user_info :
-        return redirect( UrlManager.buildUrl( "/user/login" ) )
+    if not user_info:
+        return redirect(UrlManager.buildUrl("/user/login"))
 
     return
 
@@ -44,10 +43,11 @@ def before_request():
 '''
 判断用户是否已经登录
 '''
+
+
 def check_login():
     cookies = request.cookies
     auth_cookie = cookies[app.config['AUTH_COOKIE_NAME']] if app.config['AUTH_COOKIE_NAME'] in cookies else None
-
 
     # if '/api' in request.path:
     #     app.logger.info(request.path)
@@ -69,7 +69,7 @@ def check_login():
     if user_info is None:
         return False
 
-    if auth_info[0] != UserService.geneAuthCode( user_info ):
+    if auth_info[0] != UserService.geneAuthCode(user_info):
         return False
 
     if user_info.status != 1:

@@ -1,14 +1,16 @@
 # -*- coding: utf-8 -*-
 from application import app
-from flask import request,g,jsonify
+from flask import request, g, jsonify
 
 from common.models.member.Member import Member
 from common.libs.member.MemberService import MemberService
-import  re
+import re
 
 '''
 api认证
 '''
+
+
 @app.before_request
 def before_request_api():
     api_ignore_urls = app.config['API_IGNORE_URLS']
@@ -21,11 +23,11 @@ def before_request_api():
     g.member_info = None
     if member_info:
         g.member_info = member_info
-    pattern = re.compile('%s' % "|".join( api_ignore_urls ))
+    pattern = re.compile('%s' % "|".join(api_ignore_urls))
     if pattern.match(path):
         return
     print(4)
-    if not member_info :
+    if not member_info:
         resp = {'code': -1, 'msg': '未登录~', 'data': {}}
         return jsonify(resp)
     print(5)
@@ -35,6 +37,8 @@ def before_request_api():
 '''
 判断用户是否已经登录
 '''
+
+
 def check_member_login():
     auth_cookie = request.headers.get("Authorization")
 
@@ -53,9 +57,8 @@ def check_member_login():
     if member_info is None:
         return False
     print(auth_info[0])
-    print(MemberService.geneAuthCode( member_info ))
-    if auth_info[0] != MemberService.geneAuthCode( member_info ):
-
+    print(MemberService.geneAuthCode(member_info))
+    if auth_info[0] != MemberService.geneAuthCode(member_info):
         return False
     print(member_info.status)
     if member_info.status != 1:
