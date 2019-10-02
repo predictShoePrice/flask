@@ -2,12 +2,10 @@
 from sqlalchemy import Column, DateTime, Index, String, text
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-metadata = Base.metadata
+from application import db, app
 
 
-class ShoesDetail(Base):
+class ShoesDetail(db.Model):
     __bind_key__ = 'shoes'
     __tablename__ = 'shoes_detail'
     __table_args__ = (
@@ -29,3 +27,6 @@ class ShoesDetail(Base):
     sale_date = Column(String(50))
     add_time = Column(DateTime)
     update_time = Column(DateTime)
+    hot_product = Column(INTEGER(11), server_default=text("'0'"))
+    day_trend = Column(INTEGER(11), server_default=text("'0'"))
+    week_trend = Column(INTEGER(11), server_default=text("'0'"))

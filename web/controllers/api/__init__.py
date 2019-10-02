@@ -8,7 +8,7 @@ from web.controllers.api.Cart import *
 from web.controllers.api.Order import *
 from web.controllers.api.My import *
 from web.controllers.api.Address import *
-from web.controllers.api.test import *
+from web.controllers.api.Index import *
 
 
 @route_api.route("/")

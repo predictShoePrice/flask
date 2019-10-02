@@ -2,12 +2,10 @@
 from sqlalchemy import Column, DateTime, Index, String, text
 from sqlalchemy.dialects.mysql import INTEGER
 from sqlalchemy.ext.declarative import declarative_base
-
-Base = declarative_base()
-metadata = Base.metadata
+from application import db, app
 
 
-class ShoesUrl(Base):
+class ShoesUrl(db.Model):
     __bind_key__ = 'shoes'
     __tablename__ = 'shoes_url'
     __table_args__ = (
