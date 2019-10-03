@@ -9,6 +9,7 @@ from web.controllers.api.Order import *
 from web.controllers.api.My import *
 from web.controllers.api.Address import *
 from web.controllers.api.Index import *
+from web.controllers.api.ShoesDetail import *
 
 
 @route_api.route("/")

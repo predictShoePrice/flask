@@ -34,18 +34,22 @@ def Index():
 
 @route_api.route("/index/trend", methods=["post"])
 def Trend():
-    resp = {'code': 200, 'msg': '操作成功~', 'items': {}}
     req = request.values
+    resp = {'code': 200, 'msg': '操作成功~', 'items': {}, 'page': int(req['page'])}
     if req['method'] == 'day':
         if req['trend'] == 'up':
-            query = ShoesDetail.query.order_by(ShoesDetail.day_trend.desc()).limit(req['num']).all()
+            query = ShoesDetail.query.order_by(ShoesDetail.day_trend.desc()) \
+                .paginate(page=int(req['page']), per_page=int(req['num']), error_out=True, max_per_page=50).items
         else:
-            query = ShoesDetail.query.order_by('day_trend').limit(req['num']).all()
+            query = ShoesDetail.query.order_by('day_trend').paginate(page=int(req['page']), per_page=int(req['num']),
+                                                                     error_out=True, max_per_page=50).items
     elif req['method'] == 'week':
         if req['trend'] == 'up':
-            query = ShoesDetail.query.order_by(ShoesDetail.week_trend.desc()).limit(req['num']).all()
+            query = ShoesDetail.query.order_by(ShoesDetail.week_trend.desc()) \
+                .paginate(page=int(req['page']), per_page=int(req['num']), error_out=True, max_per_page=50).items
         else:
-            query = ShoesDetail.query.order_by('week_trend').limit(req['num']).all()
+            query = ShoesDetail.query.order_by('week_trend').paginate(page=int(req['page']), per_page=int(req['num']),
+                                                                      error_out=True, max_per_page=50).items
     else:
         query = None
     items_list = []
@@ -79,7 +83,9 @@ def Search():
         return jsonify(resp)
     query = ShoesDetail.query
     rule = or_(ShoesDetail.product_name.ilike("%{0}%".format(req['query'])),
-               ShoesDetail.product_model.ilike("%{0}%".format(req['query'])))
+               ShoesDetail.product_model.ilike("%{0}%".format(req['query'])),
+               ShoesDetail.sku_id.ilike("%{0}%".format(req['query'])),
+               )
     query = query.filter(rule).limit(req['num']).all()
     items_list = []
     for item in query:
