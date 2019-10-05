@@ -43,10 +43,6 @@ def Detail():
 
     resp['data']['detail'] = item_dict
 
-    # today = datetime.datetime.now()
-    # startTime = today - datetime.timedelta(days=7)
-    # resp['data']['startTime'] = startTime.strftime("%Y%m%d")
-
     platforms = ['nice', 'stockx', 'du']
     resp['data']['platforms'] = platforms
 
@@ -112,10 +108,6 @@ def ItemTrend():
     item_dict['hot_product'] = query_detail.hot_product
 
     resp['data']['detail'] = item_dict
-
-    # today = datetime.datetime.now()
-    # startTime = today - datetime.timedelta(days=7)
-    # resp['data']['startTime'] = startTime.strftime("%Y%m%d")
 
     platforms = ['nice', 'stockx', 'du']
     resp['data']['platforms'] = platforms
