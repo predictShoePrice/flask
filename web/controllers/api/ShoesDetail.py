@@ -12,7 +12,7 @@ import numpy as np
 import datetime
 
 
-@route_api.route("/item/detail", methods=["get"])
+@route_api.route("/item/detail", methods=["post"])
 def Detail():
     values = request.values
     sku_id = values['sku_id']
@@ -73,7 +73,7 @@ def Detail():
     return jsonify(resp)
 
 
-@route_api.route("/item/trend", methods=["get"])
+@route_api.route("/item/trend", methods=["post"])
 def ItemTrend():
     values = request.values
     sku_id = values['sku_id']
