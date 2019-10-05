@@ -81,7 +81,7 @@ def Detail():
 def ItemTrend():
     values = request.values
     sku_id = values['sku_id']
-    size = values['size']
+    size = values['shoe_size']
     start_time = values['start_time']
     if not sku_id:
         resp = {'code': 500, 'msg': '参数缺失: sku_id'}
@@ -92,7 +92,7 @@ def ItemTrend():
         return jsonify(resp)
 
     if not size:
-        resp = {'code': 500, 'msg': '参数缺失: size'}
+        resp = {'code': 500, 'msg': '参数缺失: shoe_size'}
         return jsonify(resp)
 
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
