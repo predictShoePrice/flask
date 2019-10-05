@@ -35,23 +35,45 @@ def Index():
 @route_api.route("/index/trend", methods=["post"])
 def Index_Trend():
     req = request.values
-    resp = {'code': 200, 'msg': '操作成功~', 'items': {}, 'page': int(req['page'])}
+    method = req['method']
+    trend = req['trend']
+    num = int(req['num'])
+    page = int(req['page'])
+
+    if not method:
+        resp = {'code': 500, 'msg': '参数缺失: method'}
+        return jsonify(resp)
+
+    if not trend:
+        resp = {'code': 500, 'msg': '参数缺失: trend'}
+        return jsonify(resp)
+
+    if not page:
+        resp = {'code': 500, 'msg': '参数缺失: page'}
+        return jsonify(resp)
+
+    if not num:
+        num = 10
+
     if req['method'] == 'day':
         if req['trend'] == 'up':
             query = ShoesDetail.query.order_by(ShoesDetail.day_trend.desc()) \
-                .paginate(page=int(req['page']), per_page=int(req['num']), error_out=True, max_per_page=50).items
+                .paginate(page=page, per_page=num, error_out=True, max_per_page=50).items
         else:
-            query = ShoesDetail.query.order_by('day_trend').paginate(page=int(req['page']), per_page=int(req['num']),
+            query = ShoesDetail.query.order_by('day_trend').paginate(page=page, per_page=num,
                                                                      error_out=True, max_per_page=50).items
     elif req['method'] == 'week':
         if req['trend'] == 'up':
             query = ShoesDetail.query.order_by(ShoesDetail.week_trend.desc()) \
-                .paginate(page=int(req['page']), per_page=int(req['num']), error_out=True, max_per_page=50).items
+                .paginate(page=page, per_page=num, error_out=True, max_per_page=50).items
         else:
-            query = ShoesDetail.query.order_by('week_trend').paginate(page=int(req['page']), per_page=int(req['num']),
+            query = ShoesDetail.query.order_by('week_trend').paginate(page=page, per_page=num,
                                                                       error_out=True, max_per_page=50).items
     else:
         query = None
+
+    resp = {'code': 200, 'msg': '操作成功~', 'items': {}, 'page': page}
+
     items_list = []
     for item in query:
         item_dict = {}
@@ -77,16 +99,22 @@ def Index_Trend():
 def Search():
     resp = {'code': 200, 'msg': '操作成功~', 'items': {}}
     req = request.values
-    if not req['num']:
-        resp['code'] = 404
-        resp['msg'] = '错误'
+    search = req['query']
+    num = req['num']
+
+    if not search:
+        resp = {'code': 500, 'msg': '参数缺失: query'}
         return jsonify(resp)
+
+    if not num:
+        num = 10
+
     query = ShoesDetail.query
-    rule = or_(ShoesDetail.product_name.ilike("%{0}%".format(req['query'])),
-               ShoesDetail.product_model.ilike("%{0}%".format(req['query'])),
-               ShoesDetail.sku_id.ilike("%{0}%".format(req['query'])),
+    rule = or_(ShoesDetail.product_name.ilike("%{0}%".format(search)),
+               ShoesDetail.product_model.ilike("%{0}%".format(search)),
+               ShoesDetail.sku_id.ilike("%{0}%".format(search)),
                )
-    query = query.filter(rule).limit(req['num']).all()
+    query = query.filter(rule).limit(num).all()
     items_list = []
     for item in query:
         item_dict = {}
