@@ -35,35 +35,39 @@ def Index():
 @route_api.route("/index/trend", methods=["post"])
 def Index_Trend():
     req = request.values
-    method = req['method']
-    trend = req['trend']
-    num = int(req['num'])
-    page = int(req['page'])
 
-    if not method:
+    try:
+        method = req['method']
+    except:
         resp = {'code': 500, 'msg': '参数缺失: method'}
         return jsonify(resp)
 
-    if not trend:
+    try:
+        trend = req['trend']
+    except:
         resp = {'code': 500, 'msg': '参数缺失: trend'}
         return jsonify(resp)
 
-    if not page:
+    try:
+        page = int(req['page'])
+    except:
         resp = {'code': 500, 'msg': '参数缺失: page'}
         return jsonify(resp)
 
-    if not num:
+    try:
+        num = int(req['num'])
+    except:
         num = 10
 
-    if req['method'] == 'day':
-        if req['trend'] == 'up':
+    if method == 'day':
+        if trend == 'up':
             query = ShoesDetail.query.order_by(ShoesDetail.day_trend.desc()) \
                 .paginate(page=page, per_page=num, error_out=True, max_per_page=50).items
         else:
             query = ShoesDetail.query.order_by('day_trend').paginate(page=page, per_page=num,
                                                                      error_out=True, max_per_page=50).items
-    elif req['method'] == 'week':
-        if req['trend'] == 'up':
+    elif method == 'week':
+        if trend == 'up':
             query = ShoesDetail.query.order_by(ShoesDetail.week_trend.desc()) \
                 .paginate(page=page, per_page=num, error_out=True, max_per_page=50).items
         else:
@@ -99,14 +103,16 @@ def Index_Trend():
 def Search():
     resp = {'code': 200, 'msg': '操作成功~', 'items': {}}
     req = request.values
-    search = req['query']
-    num = req['num']
 
-    if not search:
+    try:
+        search = req['query']
+    except:
         resp = {'code': 500, 'msg': '参数缺失: query'}
         return jsonify(resp)
 
-    if not num:
+    try:
+        num = req['num']
+    except:
         num = 10
 
     query = ShoesDetail.query

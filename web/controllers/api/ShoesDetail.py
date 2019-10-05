@@ -15,13 +15,16 @@ import datetime
 @route_api.route("/item/detail", methods=["post"])
 def Detail():
     values = request.values
-    sku_id = values['sku_id']
-    add_time = values['date']
-    if not sku_id:
+
+    try:
+        sku_id = values['sku_id']
+    except:
         resp = {'code': 500, 'msg': '参数缺失: sku_id'}
         return jsonify(resp)
 
-    if not add_time:
+    try:
+        add_time = values['date']
+    except:
         resp = {'code': 500, 'msg': '参数缺失: add_time'}
         return jsonify(resp)
 
@@ -56,12 +59,12 @@ def Detail():
             quotes = {
                 'time': item.add_time,
                 'size': item.shoe_size,
-                'ask_price': [0,0,0],
-                'bid_price': [0,0,0]
+                'ask_price': [0, 0, 0],
+                'bid_price': [0, 0, 0]
             }
-            
+
         platform_index = platforms.index(item.platform)
-        if platform_index<0: 
+        if platform_index < 0:
             continue
         quotes['ask_price'][platform_index] = item.purchase_price
         quotes['bid_price'][platform_index] = item.platform_price
@@ -76,19 +79,23 @@ def Detail():
 @route_api.route("/item/trend", methods=["post"])
 def ItemTrend():
     values = request.values
-    sku_id = values['sku_id']
-    size = values['shoe_size']
-    start_time = values['start_time']
-    if not sku_id:
+
+    try:
+        sku_id = values['sku_id']
+    except:
         resp = {'code': 500, 'msg': '参数缺失: sku_id'}
         return jsonify(resp)
 
-    if not start_time:
-        resp = {'code': 500, 'msg': '参数缺失: start_time (YYYYMMDD)'}
+    try:
+        size = values['shoe_size']
+    except:
+        resp = {'code': 500, 'msg': '参数缺失: shoe_size'}
         return jsonify(resp)
 
-    if not size:
-        resp = {'code': 500, 'msg': '参数缺失: shoe_size'}
+    try:
+        start_time = values['start_time']
+    except:
+        resp = {'code': 500, 'msg': '参数缺失: start_time (YYYYMMDD)'}
         return jsonify(resp)
 
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
@@ -113,7 +120,8 @@ def ItemTrend():
     resp['data']['platforms'] = platforms
 
     quotes_set = {}
-    platform_data = ShoesPlatform.query.filter_by(sku_id=sku_id, shoe_size=size).filter(ShoesPlatform.add_time>=start_time)
+    platform_data = ShoesPlatform.query.filter_by(sku_id=sku_id, shoe_size=size).filter(
+        ShoesPlatform.add_time >= start_time)
     for item in platform_data:
         time_index = 'index_' + item.add_time
         if time_index in quotes_set:
@@ -122,12 +130,12 @@ def ItemTrend():
             quotes = {
                 'time': item.add_time,
                 'size': item.shoe_size,
-                'ask_price': [0,0,0],
-                'bid_price': [0,0,0]
+                'ask_price': [0, 0, 0],
+                'bid_price': [0, 0, 0]
             }
-            
+
         platform_index = platforms.index(item.platform)
-        if platform_index<0: 
+        if platform_index < 0:
             continue
         quotes['ask_price'][platform_index] = item.purchase_price
         quotes['bid_price'][platform_index] = item.platform_price
