@@ -52,7 +52,7 @@ def Detail():
 
 
 @route_api.route("/item/trend", methods=["post"])
-def Trend():
+def ItemTrend():
     resp = {'code': 200, 'msg': '操作成功~', 'items': {}}
     req = request.values
 

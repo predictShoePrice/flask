@@ -33,7 +33,7 @@ def Index():
 
 
 @route_api.route("/index/trend", methods=["post"])
-def Trend():
+def Index_Trend():
     req = request.values
     resp = {'code': 200, 'msg': '操作成功~', 'items': {}, 'page': int(req['page'])}
     if req['method'] == 'day':
