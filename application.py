@@ -2,6 +2,7 @@
 from flask import Flask
 from flask_script import Manager
 from flask_sqlalchemy import SQLAlchemy
+from flask_cors import CORS
 import os
 
 
@@ -17,6 +18,7 @@ class Application(Flask):
 
 db = SQLAlchemy()
 app = Application(__name__, template_folder=os.getcwd() + "/web/templates/", root_path=os.getcwd())
+CORS(app, supports_credentials=True)
 manager = Manager(app)
 
 '''
