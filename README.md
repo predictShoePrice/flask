@@ -18,3 +18,8 @@ flask-sqlacodegen 'mysql://root:mysql@127.0.0.1/food_db' --tables member --outfi
 flask-sqlacodegen 'mysql://root:mysql@127.0.0.1/food_db' --tables oauth_member_bind --outfile "common/models/member/OauthMemberBbind.py"  --flask
 
 flask-sqlacodegen 'mysql://root:mysql@127.0.0.1/food_db' --tables food --outfile "common/models/food/Food.py"  --flask
+
+###生产reqs
+~~~
+pipreqs ./ --encoding=utf-8 --force
+~~~

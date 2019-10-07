@@ -40,7 +40,7 @@ def Detail():
     item_dict['source'] = query_detail.source
     item_dict['product_url'] = query_detail.product_url
     item_dict['sales_type'] = query_detail.sales_type
-    item_dict['image_path'] = query_detail.image_path
+    item_dict['image_path'] = 'http://soleboard.cn-bj.ufileos.com/' + query_detail.image_path
     item_dict['sale_date'] = query_detail.sale_date
     item_dict['hot_product'] = query_detail.hot_product
 
@@ -110,7 +110,7 @@ def ItemTrend():
     item_dict['source'] = query_detail.source
     item_dict['product_url'] = query_detail.product_url
     item_dict['sales_type'] = query_detail.sales_type
-    item_dict['image_path'] = query_detail.image_path
+    item_dict['image_path'] = 'http://soleboard.cn-bj.ufileos.com/' + query_detail.image_path
     item_dict['sale_date'] = query_detail.sale_date
     item_dict['hot_product'] = query_detail.hot_product
 
