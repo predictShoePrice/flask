@@ -27,6 +27,8 @@ def Index():
         item_dict['image_path'] = 'http://soleboard.cn-bj.ufileos.com/' + item.image_path
         item_dict['sale_date'] = item.sale_date
         item_dict['hot_product'] = item.hot_product
+        item_dict['day_trend'] = item.day_trend
+        item_dict['week_trend'] = item.week_trend
         items_list.append(item_dict)
     resp['items'] = items_list
     return jsonify(resp)
@@ -87,9 +89,9 @@ def Index_Trend():
         item_dict['product_name'] = item.product_name
         item_dict['initial_price'] = item.initial_price
         item_dict['source'] = item.source
-        item_dict['product_url'] = 'http://soleboard.cn-bj.ufileos.com/' + item.product_url
+        item_dict['product_url'] = item.product_url
         item_dict['sales_type'] = item.sales_type
-        item_dict['image_path'] = item.image_path
+        item_dict['image_path'] = 'http://soleboard.cn-bj.ufileos.com/' + item.image_path
         item_dict['sale_date'] = item.sale_date
         item_dict['hot_product'] = item.hot_product
         item_dict['day_trend'] = item.day_trend
