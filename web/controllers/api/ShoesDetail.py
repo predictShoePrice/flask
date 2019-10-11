@@ -7,8 +7,6 @@ from common.models.shoes.ShoesPlatform import ShoesPlatform
 from common.models.shoes.ShoesUrl import ShoesUrl
 from application import app, db
 import json
-import pandas as pd
-import numpy as np
 import datetime
 
 
