@@ -77,6 +77,7 @@ def Index_Trend():
                                                                       error_out=True, max_per_page=50).items
     else:
         query = None
+        return jsonify({'code': 500, 'msg': '不支持的类型method: '+ method})
 
     resp = {'code': 200, 'msg': '操作成功~', 'items': {}, 'page': page}
 

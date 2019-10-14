@@ -49,6 +49,7 @@ def Detail():
 
     quotes_set = {}
     platform_data = ShoesPlatform.query.filter_by(sku_id=sku_id, add_time=add_time)
+
     for item in platform_data:
         shoe_size_index = 'index_' + item.shoe_size
         if shoe_size_index in quotes_set:
@@ -99,6 +100,7 @@ def ItemTrend():
     resp = {'code': 200, 'msg': '操作成功~', 'data': {}}
 
     query_detail = ShoesDetail.query.filter_by(sku_id=sku_id).first()
+
     item_dict = {}
     item_dict['product_id'] = query_detail.product_id
     item_dict['sku_id'] = query_detail.sku_id
@@ -120,6 +122,7 @@ def ItemTrend():
     quotes_set = {}
     platform_data = ShoesPlatform.query.filter_by(sku_id=sku_id, shoe_size=size).filter(
         ShoesPlatform.add_time >= start_time)
+
     for item in platform_data:
         time_index = 'index_' + item.add_time
         if time_index in quotes_set:
