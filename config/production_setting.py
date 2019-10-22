@@ -21,7 +21,7 @@ SERVER_HOST = "0.0.0.0"
 
 SQLALCHEMY_BINDS = {
     'shoes':  'mysql+pymysql://{}:{}@{}:{}/shoes?charset=utf8'. \
-         format(MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT,
+         format(MYSQL_USER, MYSQL_PASSWORD, MYSQL_HOST, MYSQL_PORT),
 }
 
 UPLOAD = {
