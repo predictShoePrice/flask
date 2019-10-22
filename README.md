@@ -23,3 +23,8 @@ flask-sqlacodegen 'mysql://root:mysql@127.0.0.1/food_db' --tables food --outfile
 ~~~
 pipreqs ./ --encoding=utf-8 --force
 ~~~
+
+###更新行情
+~~~
+python manager.py runjob -m quotes/index
+~~~
