@@ -26,22 +26,22 @@ class JobTask():
         yesterday = today + datetime.timedelta(-1)
         today_str = getCurrentDate().strftime('%Y%m%d')
         yesterday_str = yesterday.strftime('%Y%m%d')
-        sku = item.sku_id
         
         quotes_set = {}
 
         # 查询今天的价格
-        today_platform_details = ShoesPlatform.query.filter_by(sku_id=sku, add_time=today_str)
+        today_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=today_str)
         for platform in today_platform_details:
-            sku_key = yesterday_str + '_' + sku + '_' + platform.shoe_size
+            sku_key = yesterday_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
             quotes = None
             if sku_key in quotes_set:
                 quotes = quotes_set.get(sku_key)
             else:
                 quotes = ShoesQuotes()
+                shoe_id = item.id
                 quotes.sku_key = sku_key
                 quotes.size = platform.shoe_size
-                quotes.sku = sku
+                quotes.sku = item.sku_id
                 quotes.time = today
                 quotes.time_str = today_str
                 quotes.pre_close = 0.0
@@ -69,10 +69,9 @@ class JobTask():
             quotes_set[sku_key] = quotes
 
         # 查询昨天的价格
-        yesterday_platform_details = ShoesPlatform.query.filter_by(sku_id=sku, add_time=yesterday_str)
+        yesterday_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=yesterday_str)
         for platform in yesterday_platform_details:
-            app.logger.info(platform)
-            sku_key = yesterday_str + '_' + sku + '_' + platform.shoe_size
+            sku_key = yesterday_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
             quotes = {}
             if sku_key in quotes_set:
                 quotes = quotes_set.get(sku_key)
