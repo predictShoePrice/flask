@@ -7,7 +7,7 @@ from jobs.launcher import runJob
 ##web server
 manager.add_command("runserver", Server(host=app.config['SERVER_HOST'],
                                         port=app.config['SERVER_PORT'],
-                                        use_debugger=False,
+                                        use_debugger=True,
                                         use_reloader=True))
 
 # job entrance
