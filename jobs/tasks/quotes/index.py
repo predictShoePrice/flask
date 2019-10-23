@@ -38,7 +38,7 @@ class JobTask():
                 quotes = quotes_set.get(sku_key)
             else:
                 quotes = ShoesQuotes()
-                shoe_id = item.id
+                quotes.shoe_id = item.id
                 quotes.sku_key = sku_key
                 quotes.size = platform.shoe_size
                 quotes.sku = item.sku_id
