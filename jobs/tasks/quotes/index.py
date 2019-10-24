@@ -24,22 +24,25 @@ class JobTask():
 
     def handleItem(self,item, today):
         yesterday = today + datetime.timedelta(-1)
-        today_str = getCurrentDate().strftime('%Y%m%d')
+        today_str = today.strftime('%Y%m%d')
         yesterday_str = yesterday.strftime('%Y%m%d')
+        if item.quotes_time != None:
+            if item.quotes_time>today:
+                app.logger.info('skip '+item.sku_id + ' '+ today_str)
+                return
         
         quotes_set = {}
 
         # 查询今天的价格
-        today_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=today_str)
+        today_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=today_str).filter(ShoesPlatform.platform_price != '-').all()
         for platform in today_platform_details:
             sku_key = yesterday_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
             quotes = None
             if sku_key in quotes_set:
                 quotes = quotes_set.get(sku_key)
             else:
-                quotes = ShoesQuotes()
+                quotes = ShoesQuotes(sku_key = sku_key)
                 quotes.shoe_id = item.id
-                quotes.sku_key = sku_key
                 quotes.size = platform.shoe_size
                 quotes.sku = item.sku_id
                 quotes.time = today
@@ -69,7 +72,7 @@ class JobTask():
             quotes_set[sku_key] = quotes
 
         # 查询昨天的价格
-        yesterday_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=yesterday_str)
+        yesterday_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=yesterday_str).filter(ShoesPlatform.platform_price != '-').all()
         for platform in yesterday_platform_details:
             sku_key = yesterday_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
             quotes = {}
@@ -90,6 +93,12 @@ class JobTask():
             quotes_set[sku_key] = quotes
 
         for quotes in quotes_set.values():
-            db.session.add(quotes)
+            # db.session.add(quotes)
+            db.session.merge(quotes)
             db.session.commit()
+
+        item.quotes_time = today
+        db.session.commit()
+        app.logger.info('finish '+item.sku_id + ' '+ today_str)
+
         return True

@@ -27,6 +27,7 @@ class ShoesDetail(db.Model):
     sale_date = Column(String(50))
     add_time = Column(DateTime)
     update_time = Column(DateTime)
+    quotes_time = Column(DateTime)
     hot_product = Column(INTEGER(11), server_default=text("'0'"))
     day_trend = Column(INTEGER(11), server_default=text("'0'"))
     week_trend = Column(INTEGER(11), server_default=text("'0'"))
