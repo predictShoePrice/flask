@@ -15,9 +15,11 @@ class JobTask():
 
     def handlePrice(self, quotes):
         try:
-            percent_trend = float((quotes.close - quotes.pre_close) / quotes.pre_close) * 100
+            percent_trend = int(((quotes.close - quotes.pre_close) / quotes.pre_close) * 100)
         except:
-            percent_trend = 0
+            percent_trend =0
+        print('~~~~~~~~~~~~~~~~~~')
+        print(percent_trend)
         sp = ShoesPlatform.query.filter_by(sku_id=quotes.sku, shoe_size=quotes.size, add_time=quotes.time_str)
         for item in sp:
             item.day_trend = percent_trend
