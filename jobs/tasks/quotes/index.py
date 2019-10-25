@@ -26,10 +26,10 @@ class JobTask():
         yesterday = today + datetime.timedelta(-1)
         today_str = today.strftime('%Y%m%d')
         yesterday_str = yesterday.strftime('%Y%m%d')
-        if item.quotes_time != None:
-            if item.quotes_time>today:
-                app.logger.info('skip '+item.sku_id + ' '+ today_str)
-                return
+        # if item.quotes_time != None:
+        #     if item.quotes_time>today:
+        #         app.logger.info('skip '+item.sku_id + ' '+ today_str)
+        #         return
         
         quotes_set = {}
 
