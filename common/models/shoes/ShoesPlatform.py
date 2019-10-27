@@ -17,3 +17,5 @@ class ShoesPlatform(db.Model):
     platform_price = Column(String(50))
     shoe_size = Column(String(50))
     add_time = Column(String(50))
+    day_trend = Column(INTEGER(11), server_default=text("'0'"))
+    week_trend = Column(INTEGER(11), server_default=text("'0'"))
