@@ -21,7 +21,7 @@ class JobTask():
         today = getCurrentDate()
         for day in range(0, 30):
             for item in list:
-                self.handleItem(item, today - datetime.timedelta(day))
+                self.handleItem(item, today - datetime.timedelta(30-day))
 
     def handleItem(self, item, today):
         yesterday = today + datetime.timedelta(-1)
@@ -38,7 +38,7 @@ class JobTask():
         today_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=today_str).filter(
             ShoesPlatform.platform_price != '-').all()
         for platform in today_platform_details:
-            sku_key = yesterday_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
+            sku_key = today_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
             quotes = None
             if sku_key in quotes_set:
                 quotes = quotes_set.get(sku_key)
@@ -77,7 +77,7 @@ class JobTask():
         yesterday_platform_details = ShoesPlatform.query.filter_by(sku_id=item.sku_id, add_time=yesterday_str).filter(
             ShoesPlatform.platform_price != '-').all()
         for platform in yesterday_platform_details:
-            sku_key = yesterday_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
+            sku_key = today_str + ':' + str(item.id) + ':' + item.sku_id + ':' + platform.shoe_size
             quotes = {}
             if sku_key in quotes_set:
                 quotes = quotes_set.get(sku_key)
