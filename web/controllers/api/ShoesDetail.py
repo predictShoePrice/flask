@@ -135,9 +135,9 @@ def ItemTrend():
                 'bid_price': [0, 0, 0]
             }
 
-        platform_index = platforms.index(item.platform)
-        if platform_index < 0:
+        if item.platform not in platforms:
             continue
+        platform_index = platforms.index(item.platform)
         quotes['ask_price'][platform_index] = item.purchase_price
         quotes['bid_price'][platform_index] = item.platform_price
         quotes_set[time_index] = quotes
