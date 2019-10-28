@@ -21,7 +21,7 @@ class JobTask():
         today = getCurrentDate()
         for day in range(1, 3):
             for item in list:
-                self.handleItem(item, today - datetime.timedelta(30-day))
+                self.handleItem(item, today - datetime.timedelta(3-day))
 
     def handleItem(self, item, today):
         yesterday = today + datetime.timedelta(-1)
