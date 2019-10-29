@@ -19,7 +19,7 @@ class JobTask():
     def run(self, params):
         list = ShoesDetail.query.all()
         today = getCurrentDate()
-        for day in range(1, 3):
+        for item in list:
             self.handleItem(item, today - datetime.timedelta(1))
 
     def handleItem(self, item, today):
