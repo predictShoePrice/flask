@@ -17,21 +17,21 @@ class JobTask():
         pass
 
     def run(self, params):
-        list = ShoesDetail.query.filter_by(sku_id='575441-013').all()
+        list = ShoesDetail.query.all()
         today = getCurrentDate()
         for item in list:
-            for day in range(10):
-                self.generateWeekQuotes(item, today - datetime.timedelta(20-day))
+            for day in range(40):
+                self.generateWeekQuotes(item, today - datetime.timedelta(40-day))
 
     def generateWeekQuotes(self, item, today):
         weekday = today.weekday()
+        startday
         new_bar = False
-        text = f'weekday {weekday}'
-        app.logger.info(text)
         # 周一作为周行情的开端
         if weekday == 0:
             new_bar = True
         today_str = today.strftime('%Y%m%d')
+        startday = (today - datetime.timedelta(7)).strftime('%Y%m%d')
 
         # 查询今天的价格
         day_quotes_set = ShoesQuotes.query.filter_by(sku=item.sku_id, time_str=today_str).all()
@@ -50,7 +50,7 @@ class JobTask():
                 week_quotes.close = day_quotes.close
                 week_quotes.volume = day_quotes.volume
             else:
-                week_quotes = ShoesWeekQuotes.query.filter_by(sku=item.sku_id, size=day_quotes.size).filter(ShoesWeekQuotes.time<today, ShoesWeekQuotes.time>=(today - datetime.timedelta(7))).first()
+                week_quotes = ShoesWeekQuotes.query.filter_by(sku=item.sku_id, size=day_quotes.size).filter(ShoesWeekQuotes.time_str<today_str, ShoesWeekQuotes.time_str>=startday).first()
                 if not week_quotes:
                     app.logger.info('skip ' + today_str)
                     continue
