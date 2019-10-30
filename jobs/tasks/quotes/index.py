@@ -20,9 +20,9 @@ class JobTask():
         list = ShoesDetail.query.all()
         today = getCurrentDate()
         for item in list:
-            self.handleItem(item, today - datetime.timedelta(1))
+            self.generateDayQuotes(item, today - datetime.timedelta(1))
 
-    def handleItem(self, item, today):
+    def generateDayQuotes(self, item, today):
         yesterday = today + datetime.timedelta(-1)
         today_str = today.strftime('%Y%m%d')
         yesterday_str = yesterday.strftime('%Y%m%d')
@@ -101,6 +101,6 @@ class JobTask():
 
         item.quotes_time = today
         db.session.commit()
-        app.logger.info('finish ' + item.sku_id + ' ' + today_str)
+        app.logger.info('[day quotes] finish ' + item.sku_id + ' ' + today_str)
 
         return True
