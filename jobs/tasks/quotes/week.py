@@ -25,7 +25,6 @@ class JobTask():
 
     def generateWeekQuotes(self, item, today):
         weekday = today.weekday()
-        startday
         new_bar = False
         # 周一作为周行情的开端
         if weekday == 0:
